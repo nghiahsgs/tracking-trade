@@ -1,4 +1,5 @@
 import { MenuProps } from "antd";
+import Link from "next/link";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -23,8 +24,14 @@ function getItem(
   } as MenuItem;
 }
 export const items: MenuItem[] = [
-  getItem("Waiting order", EMenu.WAITING_ORDER),
-  getItem("History order", EMenu.HISTORY_ORDER),
-  getItem("Balance", EMenu.BALANCE),
-  getItem("Settings", EMenu.SETTINGS),
+  getItem(
+    <Link href={"/waiting-order"}>Waiting order</Link>,
+    EMenu.WAITING_ORDER
+  ),
+  getItem(
+    <Link href={"/history-order"}>History order</Link>,
+    EMenu.HISTORY_ORDER
+  ),
+  getItem(<Link href={"/balance"}>Balance</Link>, EMenu.BALANCE),
+  getItem(<Link href={"/settings"}>Settings</Link>, EMenu.SETTINGS),
 ];
