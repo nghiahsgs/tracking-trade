@@ -1,7 +1,31 @@
 import React from "react";
+import { Table } from "antd";
+import type { TableProps } from "antd";
 
-function Balance() {
-  return <div>Balance</div>;
-}
+interface DataType {}
+
+const columns: TableProps<DataType>["columns"] = [
+  {
+    title: "ID",
+    dataIndex: "id",
+    render: () => <>-</>,
+  },
+  {
+    title: "Coin Name",
+    dataIndex: "coinName",
+    render: () => <>-</>,
+  },
+  {
+    title: "Balance",
+    dataIndex: "balance",
+    render: () => <>-</>,
+  },
+];
+
+const data: DataType[] = [{}];
+
+const Balance: React.FC = () => (
+  <Table columns={columns} dataSource={data} pagination={false} />
+);
 
 export default Balance;

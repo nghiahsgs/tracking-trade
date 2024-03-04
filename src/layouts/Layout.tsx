@@ -1,6 +1,7 @@
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, useEffect, useState } from "react";
 import { Layout, Menu, theme } from "antd";
 import { EMenu, items } from "./Menu";
+import { useRouter } from "next/router";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -8,6 +9,35 @@ const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  const route = useRouter();
+  const pathName = route.pathname.replace("/", "");
+
+  const [selected, setSelected] = useState<[EMenu]>([EMenu.WAITING_ORDER]);
+
+  useEffect(() => {
+    if (pathName !== "waiting-order") {
+      handleNavigateWhenMount(pathName);
+    }
+  }, []);
+
+  const handleNavigateWhenMount = (path?: string) => {
+    let pathToEnum: EMenu;
+    switch (path) {
+      case "history-order":
+        pathToEnum = EMenu.HISTORY_ORDER;
+        break;
+      case "balance":
+        pathToEnum = EMenu.BALANCE;
+        break;
+      case "settings":
+        pathToEnum = EMenu.SETTINGS;
+        break;
+      default:
+        pathToEnum = EMenu.WAITING_ORDER;
+    }
+    setSelected([pathToEnum]);
+  };
 
   return (
     <Layout hasSider>
@@ -25,7 +55,8 @@ const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={[EMenu.WAITING_ORDER]}
+          selectedKeys={selected}
+          onSelect={(selected) => setSelected(selected.selectedKeys as [EMenu])}
           items={items}
         />
       </Sider>
