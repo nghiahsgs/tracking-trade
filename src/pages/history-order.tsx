@@ -64,12 +64,6 @@ const columns: TableProps<DataType>["columns"] = [
     title: "",
     key: "",
     width: "5%",
-    render: (_, record) => <Button type="primary">Edit</Button>,
-  },
-  {
-    title: "",
-    key: "",
-    width: "5%",
     render: (_, record) => <Button danger>Delete</Button>,
   },
 ];
