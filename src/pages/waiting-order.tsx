@@ -1,6 +1,8 @@
 import React from "react";
 import { Button, Table } from "antd";
 import type { TableProps } from "antd";
+import CreateWaitingOrder from "@/components/create-waiting-order";
+import styled from "styled-components";
 
 interface DataType {}
 
@@ -49,7 +51,7 @@ const columns: TableProps<DataType>["columns"] = [
     title: "",
     key: "",
     width: "5%",
-    render: (_, record) => <Button type="primary">Edit</Button>,
+    render: (_, record) => <Button type="default">Edit</Button>,
   },
   {
     title: "",
@@ -62,7 +64,16 @@ const columns: TableProps<DataType>["columns"] = [
 const data: DataType[] = [{}];
 
 const WaitingOrder: React.FC = () => (
-  <Table columns={columns} dataSource={data} pagination={false} />
+  <Container>
+    <CreateWaitingOrder />
+    <Table columns={columns} dataSource={data} pagination={false} />
+  </Container>
 );
 
 export default WaitingOrder;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;

@@ -3,6 +3,7 @@ import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Controller, useForm } from "react-hook-form";
 import { ILogin } from "@/types/login";
+import { FormHelperText } from "@/components/modal-waiting-order";
 
 function Login() {
   const { control, handleSubmit } = useForm<ILogin>();
@@ -26,33 +27,41 @@ function Login() {
         onFinish={handleSubmit(onSubmit)}
         style={{ width: 300 }}
       >
-        <Form.Item
-          rules={[{ required: true, message: "Please input your username!" }]}
-        >
+        <Form.Item>
           <Controller
+            rules={{ required: "Please input your username!" }}
             name="username"
             control={control}
-            render={({ field }) => (
-              <Input
-                prefix={<UserOutlined />}
-                placeholder="Username"
-                {...field}
-              />
+            render={({ field, fieldState }) => (
+              <>
+                <Input
+                  prefix={<UserOutlined />}
+                  placeholder="Username"
+                  {...field}
+                />
+                <FormHelperText error={fieldState.error?.message}>
+                  {fieldState.error?.message}
+                </FormHelperText>
+              </>
             )}
           />
         </Form.Item>
-        <Form.Item
-          rules={[{ required: true, message: "Please input your password!" }]}
-        >
+        <Form.Item>
           <Controller
+            rules={{ required: "Please input your password!" }}
             name="password"
             control={control}
-            render={({ field }) => (
-              <Input.Password
-                prefix={<LockOutlined />}
-                placeholder="Password"
-                {...field}
-              />
+            render={({ field, fieldState }) => (
+              <>
+                <Input.Password
+                  prefix={<LockOutlined />}
+                  placeholder="Password"
+                  {...field}
+                />
+                <FormHelperText error={fieldState.error?.message}>
+                  {fieldState.error?.message}
+                </FormHelperText>
+              </>
             )}
           />
         </Form.Item>
