@@ -60,7 +60,7 @@ const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
           items={items}
         />
       </Sider>
-      <Layout style={{ marginLeft: 200 }}>
+      <Layout style={{ marginLeft: 200, minHeight: "100vh" }}>
         <Header style={{ padding: 0, background: colorBgContainer }} />
         <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
           <div
@@ -69,7 +69,7 @@ const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
               textAlign: "center",
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
-              minHeight: "calc(100vh - 200px)",
+              minHeight: "calc(100vh - 178px)",
             }}
           >
             {children}
