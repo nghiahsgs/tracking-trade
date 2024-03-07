@@ -3,6 +3,7 @@ import { Button, Table } from "antd";
 import type { TableProps } from "antd";
 import CreateWaitingOrder from "@/components/create-waiting-order";
 import styled from "styled-components";
+import useGetWaitingOrder from "@/hooks/useGetListWaitingOrder";
 
 interface DataType {}
 
@@ -63,12 +64,16 @@ const columns: TableProps<DataType>["columns"] = [
 
 const data: DataType[] = [{}];
 
-const WaitingOrder: React.FC = () => (
-  <Container>
-    <CreateWaitingOrder />
-    <Table columns={columns} dataSource={data} pagination={false} />
-  </Container>
-);
+const WaitingOrder: React.FC = () => {
+  const waitingOrders = useGetWaitingOrder();
+  console.log({ data: waitingOrders.data });
+  return (
+    <Container>
+      <CreateWaitingOrder />
+      <Table columns={columns} dataSource={data} pagination={false} />
+    </Container>
+  );
+};
 
 export default WaitingOrder;
 

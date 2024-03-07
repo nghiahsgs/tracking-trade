@@ -1,4 +1,4 @@
-import { LIST_COIN } from "@/constans/list-coin";
+import { LIST_COIN } from "@/constants/list-coin";
 import { EOrderType, IOrder } from "@/types/order";
 import {
   AutoComplete,

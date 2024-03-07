@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import { NextPage } from "next";
 import type { AppProps } from "next/app";
 import { ReactNode } from "react";
+import { QueryClientProvider, QueryClient } from "react-query";
 
 type Page<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactNode) => ReactNode;
@@ -13,8 +14,13 @@ type Props = AppProps & {
 };
 
 export default function App({ Component, pageProps }: Props) {
+  const queryClient = new QueryClient();
   const getLayout =
     Component.getLayout || ((page: ReactNode) => <AppLayout>{page}</AppLayout>);
 
-  return getLayout(<Component {...pageProps} />);
+  return (
+    <QueryClientProvider client={queryClient}>
+      {getLayout(<Component {...pageProps} />)}
+    </QueryClientProvider>
+  );
 }

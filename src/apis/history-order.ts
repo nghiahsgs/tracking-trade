@@ -1,4 +1,5 @@
-import { API_URL } from "@/constans/api-url";
+import { API_URL } from "@/constants/api-url";
+
 import api from "./config";
 
 export const getHistoryOrder = async () => {

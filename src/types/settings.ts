@@ -1,4 +1,4 @@
 export interface ISettings {
-  api_key: string;
-  api_secret: string;
+  access_key: string;
+  secret_key: string;
 }

@@ -1,6 +1,8 @@
+import { API_URL } from "@/constants/api-url";
+import { LocalStorageService } from "@/utils/storage";
 import axios, { AxiosError } from "axios";
 
-const BASE_URL = "";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_API_URL;
 
 const createAxiosInstance = () => {
   const instance = axios.create({
@@ -10,6 +12,13 @@ const createAxiosInstance = () => {
 
   instance.interceptors.request.use(
     (config) => {
+      const url = config.url;
+      const publishApi: Array<string> = [API_URL.LOGIN, API_URL.REGISTER];
+      if (url && publishApi.includes(url)) {
+        return config;
+      }
+      const accessToken = LocalStorageService.getAccessToken();
+      config.headers.Authorization = `Bearer ${accessToken}`;
       return config;
     },
     (error) => {

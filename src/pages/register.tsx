@@ -2,25 +2,19 @@ import React from "react";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Controller, useForm } from "react-hook-form";
-import { ILogin } from "@/types/authenticate";
+import { IRegister } from "@/types/authenticate";
 import { FormHelperText } from "@/components/modal-waiting-order";
 import useAuthentication from "@/hooks/useAuthentication";
 import { useRouter } from "next/router";
-import { LocalStorageService } from "@/utils/storage";
 import { ROUTES } from "@/constants/route";
 
 function Login() {
-  const { control, handleSubmit } = useForm<ILogin>();
-  const { login } = useAuthentication();
+  const { control, handleSubmit } = useForm<IRegister>();
+  const { register } = useAuthentication();
   const route = useRouter();
 
-  const onSubmit = (data: ILogin) => {
-    login.mutate(data, {
-      onSuccess: (data) => {
-        route.push(ROUTES.WAITING_ORDER);
-        LocalStorageService.setAccessToken(data);
-      },
-    });
+  const onSubmit = (data: IRegister) => {
+    register.mutate(data, { onSuccess: () => route.push(ROUTES.LOGIN) });
   };
   return (
     <div
@@ -77,8 +71,47 @@ function Login() {
           />
         </Form.Item>
         <Form.Item>
+          <Controller
+            rules={{ required: "Please input your access key!" }}
+            name="access_key"
+            control={control}
+            render={({ field, fieldState }) => (
+              <>
+                <Input placeholder="Access Key" {...field} />
+                <FormHelperText error={fieldState.error?.message}>
+                  {fieldState.error?.message}
+                </FormHelperText>
+              </>
+            )}
+          />
+        </Form.Item>
+        <Form.Item>
+          <Controller
+            rules={{ required: "Please input your secret key!" }}
+            name="secret_key"
+            control={control}
+            render={({ field, fieldState }) => (
+              <>
+                <Input placeholder="Secret Key" {...field} />
+                <FormHelperText error={fieldState.error?.message}>
+                  {fieldState.error?.message}
+                </FormHelperText>
+              </>
+            )}
+          />
+        </Form.Item>
+        <Form.Item>
+          <Controller
+            name="group_telegram_chat_id"
+            control={control}
+            render={({ field }) => (
+              <Input placeholder="Group telegram id" {...field} />
+            )}
+          />
+        </Form.Item>
+        <Form.Item>
           <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
-            Log in
+            Register
           </Button>
         </Form.Item>
       </Form>
