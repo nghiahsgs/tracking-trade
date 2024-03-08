@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Form, Input } from "antd";
 import { Controller, useForm } from "react-hook-form";
 import { FormHelperText } from "@/components/modal-waiting-order";
 import { ISettings } from "@/types/settings";
+import useGetUserInfo from "@/hooks/useGetUserInfo";
+import useUpdateUserInfo from "@/hooks/useUpdateUserInfo";
 
 const Settings: React.FC = () => {
-  const { control, handleSubmit } = useForm<ISettings>();
+  const userInfo = useGetUserInfo();
+  const updateUserInfo = useUpdateUserInfo();
+  const { control, handleSubmit, reset } = useForm<ISettings>();
   const onSubmit = (data: ISettings) => {
-    console.log({ data });
+    updateUserInfo.mutate(data);
   };
+  useEffect(() => {
+    if (userInfo.data) reset(userInfo.data);
+  }, [userInfo.data]);
+
   return (
     <div
       style={{
@@ -31,7 +39,7 @@ const Settings: React.FC = () => {
             control={control}
             render={({ field, fieldState }) => (
               <>
-                <Input placeholder="API KEY" {...field} />
+                <Input placeholder="ACCESS KEY" {...field} />
                 <FormHelperText error={fieldState.error?.message}>
                   {fieldState.error?.message}
                 </FormHelperText>
@@ -46,7 +54,22 @@ const Settings: React.FC = () => {
             control={control}
             render={({ field, fieldState }) => (
               <>
-                <Input placeholder="API SECRET" {...field} />
+                <Input placeholder="SECRET KEY" {...field} />
+                <FormHelperText error={fieldState.error?.message}>
+                  {fieldState.error?.message}
+                </FormHelperText>
+              </>
+            )}
+          />
+        </Form.Item>
+        <Form.Item>
+          <Controller
+            rules={{ required: "Please input your group telegram id!" }}
+            name="group_telegram_chat_id"
+            control={control}
+            render={({ field, fieldState }) => (
+              <>
+                <Input placeholder="Group telegram id" {...field} />
                 <FormHelperText error={fieldState.error?.message}>
                   {fieldState.error?.message}
                 </FormHelperText>

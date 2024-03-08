@@ -12,4 +12,5 @@ export const API_URL = {
 
   LOGIN: "/v1/users/login/",
   REGISTER: "/v1/users/register/",
+  USER:"/v1/users/me/"
 } as const;

@@ -5,6 +5,4 @@ export interface ILogin {
   password: string;
 }
 
-export interface IRegister extends ILogin, ISettings {
-  group_telegram_chat_id?: string;
-}
+export interface IRegister extends ILogin, ISettings {}
