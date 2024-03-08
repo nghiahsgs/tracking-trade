@@ -19,7 +19,7 @@ interface IModalProps extends Omit<ModalProps, "title"> {
   handleOk: () => void;
   handleCancel: () => void;
   title: "Update order" | "Create order";
-  data?: any;
+  data?: IOrder;
 }
 
 const initFormData = {
