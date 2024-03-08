@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Typography } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Controller, useForm } from "react-hook-form";
 import { ILogin } from "@/types/authenticate";
@@ -80,6 +80,12 @@ function Login() {
           <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
             Log in
           </Button>
+        </Form.Item>
+
+        <Form.Item style={{ textAlign: "center", width: "100%" }}>
+          <Typography.Link onClick={() => route.push(ROUTES.REGISTER)}>
+            Register
+          </Typography.Link>
         </Form.Item>
       </Form>
     </div>

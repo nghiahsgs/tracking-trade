@@ -1,7 +1,9 @@
 import React, { PropsWithChildren, useEffect, useState } from "react";
-import { Layout, Menu, theme } from "antd";
+import { Button, Layout, Menu, theme } from "antd";
 import { EMenu, items } from "./Menu";
 import { useRouter } from "next/router";
+import { ROUTES } from "@/constants/route";
+import { LocalStorageService } from "@/utils/storage";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -39,6 +41,11 @@ const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
     setSelected([pathToEnum]);
   };
 
+  const handleLogout = () => {
+    route.push(ROUTES.LOGIN);
+    LocalStorageService.deleteAccessToken();
+  };
+
   return (
     <Layout hasSider>
       <Sider
@@ -61,7 +68,18 @@ const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
         />
       </Sider>
       <Layout style={{ marginLeft: 200, minHeight: "100vh" }}>
-        <Header style={{ padding: 0, background: colorBgContainer }} />
+        <Header
+          style={{
+            padding: "16px",
+            background: colorBgContainer,
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
+          <Button type="primary" onClick={handleLogout}>
+            Logout
+          </Button>
+        </Header>
         <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
           <div
             style={{
