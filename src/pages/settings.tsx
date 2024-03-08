@@ -26,8 +26,8 @@ const Settings: React.FC = () => {
       >
         <Form.Item>
           <Controller
-            rules={{ required: "Please input your API KEY!" }}
-            name="api_key"
+            rules={{ required: "Please input your access key!" }}
+            name="access_key"
             control={control}
             render={({ field, fieldState }) => (
               <>
@@ -41,8 +41,8 @@ const Settings: React.FC = () => {
         </Form.Item>
         <Form.Item>
           <Controller
-            rules={{ required: "Please input your API SECRET!" }}
-            name="api_secret"
+            rules={{ required: "Please input your secret key!" }}
+            name="secret_key"
             control={control}
             render={({ field, fieldState }) => (
               <>

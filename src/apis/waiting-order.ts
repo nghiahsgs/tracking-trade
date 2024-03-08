@@ -17,7 +17,7 @@ export const updateWaitingOrder = async (body: IOrder) => {
   return response.data;
 };
 
-export const deleteWaitingOrder = async () => {
-  const response = await api.delete(API_URL.DELETE_HISTORY_ORDER);
+export const deleteWaitingOrder = async (id: number) => {
+  const response = await api.delete(`${API_URL.DELETE_HISTORY_ORDER}/${id}`);
   return response.data;
 };

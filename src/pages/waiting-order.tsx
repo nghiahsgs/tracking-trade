@@ -85,9 +85,14 @@ const WaitingOrder: React.FC = () => {
             disabled={isDisable ? true : false}
             onClick={() => {
               showModal();
+              const { conditions } = record;
+              const conditionString = (conditions as Array<string>)
+                .map((item) => item.split(" "))
+                .map((item) => item[0]);
               const newRecord = {
                 ...record,
                 coin_name: `${record.coin_name}/USDT`,
+                conditions: conditionString,
               };
               setOrderDetail(newRecord);
             }}

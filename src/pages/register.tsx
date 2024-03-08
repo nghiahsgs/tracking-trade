@@ -8,7 +8,7 @@ import useAuthentication from "@/hooks/useAuthentication";
 import { useRouter } from "next/router";
 import { ROUTES } from "@/constants/route";
 
-function Login() {
+function Register() {
   const { control, handleSubmit } = useForm<IRegister>();
   const { register } = useAuthentication();
   const route = useRouter();
@@ -119,8 +119,8 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
 
-Login.getLayout = function getLayout() {
-  return <Login />;
+Register.getLayout = function getLayout() {
+  return <Register />;
 };
