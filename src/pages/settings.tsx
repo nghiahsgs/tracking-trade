@@ -44,7 +44,7 @@ const Settings: React.FC = () => {
           onFinish={handleSubmit(onSubmit)}
           style={{ width: 300 }}
         >
-          <Form.Item>
+          <Form.Item label="Access Key">
             <Controller
               rules={{ required: "Please input your access key!" }}
               name="access_key"
@@ -59,7 +59,7 @@ const Settings: React.FC = () => {
               )}
             />
           </Form.Item>
-          <Form.Item>
+          <Form.Item label="Secret Key">
             <Controller
               rules={{ required: "Please input your secret key!" }}
               name="secret_key"
@@ -74,7 +74,7 @@ const Settings: React.FC = () => {
               )}
             />
           </Form.Item>
-          <Form.Item>
+          <Form.Item label="Group telegram id">
             <Controller
               rules={{ required: "Please input your group telegram id!" }}
               name="group_telegram_chat_id"

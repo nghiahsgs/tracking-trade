@@ -68,10 +68,15 @@ const columns: TableProps<DataType>["columns"] = [
   },
 ];
 
-const data: DataType[] = [{}];
+const data: DataType[] = [];
 
 const HistoryOrder: React.FC = () => (
-  <Table columns={columns} dataSource={data} pagination={false} />
+  <Table
+    columns={columns}
+    dataSource={data}
+    pagination={false}
+    locale={{ emptyText: "No data" }}
+  />
 );
 
 export default HistoryOrder;

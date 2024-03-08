@@ -165,6 +165,7 @@ const WaitingOrder: React.FC = () => {
           columns={columns}
           dataSource={waitingOrders.data}
           pagination={false}
+          locale={{ emptyText: "No data" }}
         />
         {orderDetail && modalDetail && (
           <ModalWaitingOrder
