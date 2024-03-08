@@ -8,4 +8,8 @@ export class LocalStorageService {
   static getAccessToken() {
     return localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
   }
+
+  static deleteAccessToken() {
+    localStorage.removeItem(STORAGE_KEY.ACCESS_TOKEN);
+  }
 }

@@ -1,4 +1,5 @@
 import { LIST_COIN } from "@/constants/list-coin";
+import useActionWaitingOrder from "@/hooks/useActionWaitingOrder";
 import { EOrderType, IOrder } from "@/types/order";
 import {
   AutoComplete,
@@ -32,6 +33,7 @@ const ModalWaitingOrder: React.FC<IModalProps> = ({
   ...props
 }) => {
   const [options, setOptions] = useState<Array<{ value: string }>>(LIST_COIN);
+  const { addOrder, updateOrder } = useActionWaitingOrder();
   const { control, handleSubmit } = useForm<IOrder>({
     defaultValues: data || initFormData,
   });
@@ -50,9 +52,21 @@ const ModalWaitingOrder: React.FC<IModalProps> = ({
   };
 
   const onSubmit = (data: IOrder) => {
-    console.log(data);
-    handleOk();
+    const formatData = formatDataSubmit(data);
+    if (props.title === "Create order") {
+      addOrder.mutate(formatData);
+    } else {
+      updateOrder.mutate(formatData);
+    }
   };
+
+  const formatDataSubmit = (data: IOrder) => {
+    const newData = { ...data };
+    const conditions = (newData.conditions as string).split(", ");
+    const coin_name = newData.coin_name.replace("/USDT", "");
+    return { ...newData, conditions, coin_name };
+  };
+
   return (
     <Modal {...props} footer={null}>
       <Form name="order" onFinish={handleSubmit(onSubmit)}>
