@@ -3,6 +3,7 @@ import {
   deleteWaitingOrder,
   updateWaitingOrder,
 } from "@/apis/waiting-order";
+import loadingState from "@/stores/loading";
 import toastState from "@/stores/toast";
 import { useMutation, useQueryClient } from "react-query";
 import { useSetRecoilState } from "recoil";
@@ -10,6 +11,7 @@ import { useSetRecoilState } from "recoil";
 function useActionWaitingOrder() {
   const queryClient = useQueryClient();
   const setToastState = useSetRecoilState(toastState);
+  const setLoadingState = useSetRecoilState(loadingState);
 
   const addOrder = useMutation(createWaitingOrder, {
     onSuccess: () => {
@@ -18,6 +20,7 @@ function useActionWaitingOrder() {
         message: "Create waiting order successfully",
         type: "info",
       });
+      setLoadingState(false);
     },
   });
   const updateOrder = useMutation(updateWaitingOrder, {
@@ -27,6 +30,7 @@ function useActionWaitingOrder() {
         message: "Update waiting order successfully",
         type: "info",
       });
+      setLoadingState(false);
     },
   });
   const deleteOrder = useMutation(deleteWaitingOrder, {
@@ -36,6 +40,7 @@ function useActionWaitingOrder() {
         message: "Delete waiting order successfully",
         type: "info",
       });
+      setLoadingState(false);
     },
   });
 

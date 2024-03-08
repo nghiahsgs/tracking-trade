@@ -1,5 +1,6 @@
 import { LIST_COIN } from "@/constants/list-coin";
 import useActionWaitingOrder from "@/hooks/useActionWaitingOrder";
+import loadingState from "@/stores/loading";
 import { EOrderType, IOrder } from "@/types/order";
 import {
   AutoComplete,
@@ -13,6 +14,7 @@ import {
 } from "antd";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 
 export interface IModalProps extends Omit<ModalProps, "title"> {
@@ -32,9 +34,10 @@ const ModalWaitingOrder: React.FC<IModalProps> = ({
   data,
   ...props
 }) => {
+  const setLoadingState = useSetRecoilState(loadingState);
   const [options, setOptions] = useState<Array<{ value: string }>>(LIST_COIN);
   const { addOrder, updateOrder } = useActionWaitingOrder();
-  const { control, handleSubmit } = useForm<IOrder>({
+  const { control, handleSubmit, reset } = useForm<IOrder>({
     defaultValues: data || initFormData,
   });
 
@@ -53,10 +56,21 @@ const ModalWaitingOrder: React.FC<IModalProps> = ({
 
   const onSubmit = (data: IOrder) => {
     const formatData = formatDataSubmit(data);
+    setLoadingState(true);
     if (props.title === "Create order") {
-      addOrder.mutate(formatData);
+      addOrder.mutate(formatData, {
+        onSuccess: () => {
+          handleOk();
+          reset();
+        },
+      });
     } else {
-      updateOrder.mutate(formatData);
+      updateOrder.mutate(formatData, {
+        onSuccess: () => {
+          handleOk();
+          reset();
+        },
+      });
     }
   };
 
