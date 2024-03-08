@@ -15,7 +15,7 @@ import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import styled from "styled-components";
 
-interface IModalProps extends Omit<ModalProps, "title"> {
+export interface IModalProps extends Omit<ModalProps, "title"> {
   handleOk: () => void;
   handleCancel: () => void;
   title: "Update order" | "Create order";

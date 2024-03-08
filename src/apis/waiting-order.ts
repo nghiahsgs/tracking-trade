@@ -18,6 +18,8 @@ export const updateWaitingOrder = async (body: IOrder) => {
 };
 
 export const deleteWaitingOrder = async (id: number) => {
-  const response = await api.delete(`${API_URL.DELETE_HISTORY_ORDER}/${id}`);
+  const response = await api.delete(
+    API_URL.DELETE_WAITING_ORDER.replace(":order_id", id.toString())
+  );
   return response.data;
 };

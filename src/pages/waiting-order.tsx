@@ -7,11 +7,15 @@ import useGetWaitingOrder from "@/hooks/useGetListWaitingOrder";
 import { IOrder } from "@/types/order";
 import { numberToUSD } from "@/types/number";
 import ModalWaitingOrder from "@/components/modal-waiting-order";
+import ModalConfirmDelete from "@/components/modal-confirm-delete";
+import useActionWaitingOrder from "@/hooks/useActionWaitingOrder";
 
 const WaitingOrder: React.FC = () => {
   const waitingOrders = useGetWaitingOrder();
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalDetail, setModalDetail] = useState<boolean>(false);
+  const [modalDelete, setModalDelete] = useState<boolean>(false);
   const [orderDetail, setOrderDetail] = useState<IOrder>();
+  const { deleteOrder } = useActionWaitingOrder();
 
   const columns: TableProps<IOrder>["columns"] = [
     {
@@ -84,16 +88,8 @@ const WaitingOrder: React.FC = () => {
             type="default"
             disabled={isDisable ? true : false}
             onClick={() => {
-              showModal();
-              const { conditions } = record;
-              const conditionString = (conditions as Array<string>)
-                .map((item) => item.split(" "))
-                .map((item) => item[0]);
-              const newRecord = {
-                ...record,
-                coin_name: `${record.coin_name}/USDT`,
-                conditions: conditionString,
-              };
+              showModal("detail");
+              const newRecord = convertWaitingOrder(record);
               setOrderDetail(newRecord);
             }}
           >
@@ -106,22 +102,51 @@ const WaitingOrder: React.FC = () => {
       title: "",
       key: "",
       width: "5%",
-      render: (_, record) => <Button danger>Delete</Button>,
+      render: (_, record) => (
+        <Button
+          danger
+          onClick={() => {
+            const newRecord = convertWaitingOrder(record);
+            setOrderDetail(newRecord);
+            showModal("delete");
+          }}
+        >
+          Delete
+        </Button>
+      ),
     },
   ];
 
-  const showModal = () => {
-    setIsModalOpen(true);
+  const showModal = (type: "detail" | "delete") => {
+    if (type === "detail") setModalDetail(true);
+    else setModalDelete(true);
   };
 
-  const handleOk = () => {
-    setIsModalOpen(false);
+  const handleOk = (type: "detail" | "delete") => {
+    if (type === "detail") setModalDetail(false);
+    else {
+      if (orderDetail) deleteOrder.mutate(orderDetail.id);
+      setModalDelete(false);
+    }
     setOrderDetail(undefined);
   };
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
+  const handleCancel = (type: "detail" | "delete") => {
+    if (type === "detail") setModalDetail(false);
+    else setModalDelete(false);
     setOrderDetail(undefined);
+  };
+
+  const convertWaitingOrder = (record: IOrder) => {
+    const conditionString = (record.conditions as Array<string>)
+      .map((item) => item.split(" "))
+      .map((item) => item[0]);
+    const newRecord = {
+      ...record,
+      coin_name: `${record.coin_name}/USDT`,
+      conditions: conditionString,
+    };
+    return newRecord;
   };
 
   return (
@@ -133,14 +158,23 @@ const WaitingOrder: React.FC = () => {
         dataSource={waitingOrders.data}
         pagination={false}
       />
-      {orderDetail && (
+      {orderDetail && modalDetail && (
         <ModalWaitingOrder
           title="Update order"
-          open={isModalOpen}
-          handleOk={handleOk}
-          handleCancel={handleCancel}
-          onCancel={handleCancel}
+          open={modalDetail}
+          handleOk={() => handleOk("detail")}
+          handleCancel={() => handleCancel("detail")}
+          onCancel={() => handleCancel("detail")}
           data={orderDetail}
+        />
+      )}
+      {orderDetail && modalDelete && (
+        <ModalConfirmDelete
+          title="Delete waiting order"
+          open={modalDelete}
+          handleOk={() => handleOk("delete")}
+          handleCancel={() => handleCancel("delete")}
+          onCancel={() => handleCancel("delete")}
         />
       )}
     </Container>

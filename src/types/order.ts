@@ -4,6 +4,7 @@ export enum EOrderType {
 }
 
 export interface IOrder {
+  id: number;
   coin_name: string;
   note: string;
   conditions: Array<string> | string;
