@@ -76,33 +76,39 @@ const ModalWaitingOrder: React.FC<IModalProps> = ({
 
   const formatDataSubmit = (data: IOrder) => {
     const newData = { ...data };
-    const conditions = (newData.conditions as string).split(", ");
-    const coin_name = newData.coin_name.replace("/USDT", "");
-    return { ...newData, conditions, coin_name };
+    if (props.title === "Create order") {
+      const conditions = (newData.conditions as string).split(", ");
+      const coin_name = newData.coin_name.replace("/USDT", "");
+      return { ...newData, conditions, coin_name };
+    } else {
+      return newData;
+    }
   };
 
   return (
     <Modal {...props} footer={null}>
       <Form name="order" onFinish={handleSubmit(onSubmit)}>
-        <Form.Item label="Coin name">
-          <Controller
-            rules={{ required: "Please select coin name!" }}
-            name="coin_name"
-            control={control}
-            render={({ field, fieldState }) => (
-              <>
-                <AutoComplete
-                  {...field}
-                  options={options}
-                  onSearch={(text) => setOptions(getPanelValue(text))}
-                />
-                <FormHelperText error={fieldState.error?.message}>
-                  {fieldState.error?.message}
-                </FormHelperText>
-              </>
-            )}
-          />
-        </Form.Item>
+        {props.title === "Create order" && (
+          <Form.Item label="Coin name">
+            <Controller
+              rules={{ required: "Please select coin name!" }}
+              name="coin_name"
+              control={control}
+              render={({ field, fieldState }) => (
+                <>
+                  <AutoComplete
+                    {...field}
+                    options={options}
+                    onSearch={(text) => setOptions(getPanelValue(text))}
+                  />
+                  <FormHelperText error={fieldState.error?.message}>
+                    {fieldState.error?.message}
+                  </FormHelperText>
+                </>
+              )}
+            />
+          </Form.Item>
+        )}
         <Form.Item label="Order type">
           <Controller
             name="order_type"
@@ -115,24 +121,26 @@ const ModalWaitingOrder: React.FC<IModalProps> = ({
             )}
           />
         </Form.Item>
-        <Form.Item label="Conditions">
-          <Controller
-            rules={{ required: "Please input conditions!" }}
-            name="conditions"
-            control={control}
-            render={({ field, fieldState }) => (
-              <>
-                <Input.TextArea
-                  {...field}
-                  value={field.value && field.value.toString()}
-                />
-                <FormHelperText error={fieldState.error?.message}>
-                  {fieldState.error?.message}
-                </FormHelperText>
-              </>
-            )}
-          />
-        </Form.Item>
+        {props.title === "Create order" && (
+          <Form.Item label="Conditions">
+            <Controller
+              rules={{ required: "Please input conditions!" }}
+              name="conditions"
+              control={control}
+              render={({ field, fieldState }) => (
+                <>
+                  <Input.TextArea
+                    {...field}
+                    value={field.value && field.value.toString()}
+                  />
+                  <FormHelperText error={fieldState.error?.message}>
+                    {fieldState.error?.message}
+                  </FormHelperText>
+                </>
+              )}
+            />
+          </Form.Item>
+        )}
         <Form.Item label="Volume(USDT)">
           <Controller
             rules={{ required: "Please input volume!" }}
