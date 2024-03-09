@@ -13,10 +13,11 @@ export const createWaitingOrder = async (body: IOrder) => {
 };
 
 export const updateWaitingOrder = async (body: IOrder) => {
-  const { id, ...bodyRequest } = body;
+  const { id, volume, note } = body;
+  const bodyRequest = { volume, note };
   const response = await api.patch(
-    API_URL.DELETE_WAITING_ORDER.replace(":order_id", body.id.toString()),
-    { body: bodyRequest }
+    API_URL.DELETE_WAITING_ORDER.replace(":order_id", id.toString()),
+    bodyRequest
   );
   return response.data;
 };
