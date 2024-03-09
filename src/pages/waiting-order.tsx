@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Spin, Table, Tag, Typography } from "antd";
+import { Button, Table, Tag, Typography } from "antd";
 import type { TableProps } from "antd";
 import CreateWaitingOrder from "@/components/create-waiting-order";
 import styled from "styled-components";
@@ -18,7 +18,7 @@ const WaitingOrder: React.FC = () => {
   const [modalDelete, setModalDelete] = useState<boolean>(false);
   const [orderDetail, setOrderDetail] = useState<IOrder>();
   const { deleteOrder } = useActionWaitingOrder();
-  const [loading, setLoading] = useRecoilState(loadingState);
+  const [_, setLoading] = useRecoilState(loadingState);
 
   const columns: TableProps<IOrder>["columns"] = [
     {
@@ -157,37 +157,35 @@ const WaitingOrder: React.FC = () => {
   }
 
   return (
-    <Spin spinning={loading}>
-      <Container>
-        <CreateWaitingOrder />
-        <Table
-          loading={waitingOrders.isLoading}
-          columns={columns}
-          dataSource={waitingOrders.data}
-          pagination={false}
-          locale={{ emptyText: "No data" }}
+    <Container>
+      <CreateWaitingOrder />
+      <Table
+        loading={waitingOrders.isLoading || waitingOrders.isFetching}
+        columns={columns}
+        dataSource={waitingOrders.data || []}
+        pagination={false}
+        locale={{ emptyText: "No data" }}
+      />
+      {orderDetail && modalDetail && (
+        <ModalWaitingOrder
+          title="Update order"
+          open={modalDetail}
+          handleOk={() => handleOk("detail")}
+          handleCancel={() => handleCancel("detail")}
+          onCancel={() => handleCancel("detail")}
+          data={orderDetail}
         />
-        {orderDetail && modalDetail && (
-          <ModalWaitingOrder
-            title="Update order"
-            open={modalDetail}
-            handleOk={() => handleOk("detail")}
-            handleCancel={() => handleCancel("detail")}
-            onCancel={() => handleCancel("detail")}
-            data={orderDetail}
-          />
-        )}
-        {orderDetail && modalDelete && (
-          <ModalConfirmDelete
-            title="Delete waiting order"
-            open={modalDelete}
-            handleOk={() => handleOk("delete")}
-            handleCancel={() => handleCancel("delete")}
-            onCancel={() => handleCancel("delete")}
-          />
-        )}
-      </Container>
-    </Spin>
+      )}
+      {orderDetail && modalDelete && (
+        <ModalConfirmDelete
+          title="Delete waiting order"
+          open={modalDelete}
+          handleOk={() => handleOk("delete")}
+          handleCancel={() => handleCancel("delete")}
+          onCancel={() => handleCancel("delete")}
+        />
+      )}
+    </Container>
   );
 };
 
