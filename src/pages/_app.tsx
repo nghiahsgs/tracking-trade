@@ -7,6 +7,7 @@ import type { AppProps } from "next/app";
 import { ReactNode } from "react";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { RecoilRoot } from "recoil";
+import RecoilNexus from "recoil-nexus";
 
 type Page<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactNode) => ReactNode;
@@ -19,6 +20,7 @@ export type Props = AppProps & {
 export default function App(props: Props) {
   return (
     <RecoilRoot>
+      <RecoilNexus />
       <AppContainer {...props} />
     </RecoilRoot>
   );

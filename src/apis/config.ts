@@ -1,6 +1,10 @@
 import { API_URL } from "@/constants/api-url";
+import { ROUTES } from "@/constants/route";
+import toastState, { IToast } from "@/stores/toast";
 import { LocalStorageService } from "@/utils/storage";
 import axios, { AxiosError } from "axios";
+import Router from "next/router";
+import { setRecoil } from "recoil-nexus";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_API_URL;
 
@@ -31,6 +35,19 @@ const createAxiosInstance = () => {
       return response;
     },
     (error: AxiosError<unknown>) => {
+      const errorResponse = error?.response as any;
+      if (
+        errorResponse?.data?.detail === "Could not validate credentials" &&
+        errorResponse.status === 401
+      ) {
+        setRecoil<IToast>(toastState, {
+          message: "Could not validate credentials",
+          type: "error",
+        });
+        LocalStorageService.deleteAccessToken();
+        Router.push(ROUTES.LOGIN);
+        return;
+      }
       return Promise.reject(error?.response || error);
     }
   );

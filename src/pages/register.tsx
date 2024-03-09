@@ -110,7 +110,12 @@ function Register() {
           />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
+          <Button
+            type="primary"
+            htmlType="submit"
+            style={{ width: "100%" }}
+            loading={register.isLoading}
+          >
             Register
           </Button>
         </Form.Item>
