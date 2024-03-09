@@ -109,18 +109,20 @@ const ModalWaitingOrder: React.FC<IModalProps> = ({
             />
           </Form.Item>
         )}
-        <Form.Item label="Order type">
-          <Controller
-            name="order_type"
-            control={control}
-            render={({ field }) => (
-              <Radio.Group {...field}>
-                <Radio value={EOrderType.BUY}>BUY</Radio>
-                <Radio value={EOrderType.SELL}>SELL</Radio>
-              </Radio.Group>
-            )}
-          />
-        </Form.Item>
+        {props.title === "Create order" && (
+          <Form.Item label="Order type">
+            <Controller
+              name="order_type"
+              control={control}
+              render={({ field }) => (
+                <Radio.Group {...field}>
+                  <Radio value={EOrderType.BUY}>BUY</Radio>
+                  <Radio value={EOrderType.SELL}>SELL</Radio>
+                </Radio.Group>
+              )}
+            />
+          </Form.Item>
+        )}
         {props.title === "Create order" && (
           <Form.Item label="Conditions">
             <Controller
