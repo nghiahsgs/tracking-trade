@@ -68,10 +68,10 @@ const WaitingOrder: React.FC = () => {
       render: (note) => <Typography.Text>{note}</Typography.Text>,
     },
     {
-      title: "Volume(USDT)",
+      title: "Volume",
       dataIndex: "volume",
       render: (volume) => (
-        <Typography.Text strong>{`${numberToUSD(volume)}$`}</Typography.Text>
+        <Typography.Text strong>{`${numberToUSD(volume)}`}</Typography.Text>
       ),
     },
     {

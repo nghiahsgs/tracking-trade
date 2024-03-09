@@ -141,7 +141,7 @@ const ModalWaitingOrder: React.FC<IModalProps> = ({
             />
           </Form.Item>
         )}
-        <Form.Item label="Volume(USDT)">
+        <Form.Item label="Volume">
           <Controller
             rules={{ required: "Please input volume!" }}
             name="volume"
@@ -150,7 +150,7 @@ const ModalWaitingOrder: React.FC<IModalProps> = ({
               <>
                 <InputNumber
                   formatter={(value) =>
-                    `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   }
                   {...field}
                 />
