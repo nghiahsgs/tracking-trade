@@ -7,10 +7,10 @@ export const API_URL = {
   HISTORY_ORDER: "",
   DELETE_HISTORY_ORDER: "",
 
-  BALANCE: "",
+  BALANCES: "/v1/balances/",
   SETTINGS: "",
 
   LOGIN: "/v1/users/login/",
   REGISTER: "/v1/users/register/",
-  USER:"/v1/users/me/"
+  USER: "/v1/users/me/",
 } as const;
