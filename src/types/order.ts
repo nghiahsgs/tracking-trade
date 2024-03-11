@@ -3,6 +3,11 @@ export enum EOrderType {
   SELL = "Sell",
 }
 
+export enum EStatusCondition {
+  WAITING = "Waiting",
+  TRIGGERED = "Triggered",
+}
+
 export interface IOrder {
   id: number;
   coin_name: string;

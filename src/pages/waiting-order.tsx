@@ -4,7 +4,7 @@ import type { TableProps } from "antd";
 import CreateWaitingOrder from "@/components/create-waiting-order";
 import styled from "styled-components";
 import useGetWaitingOrder from "@/hooks/useGetListWaitingOrder";
-import { IOrder } from "@/types/order";
+import { EStatusCondition, IOrder } from "@/types/order";
 import { numberToUSD } from "@/types/number";
 import ModalWaitingOrder from "@/components/modal-waiting-order";
 import ModalConfirmDelete from "@/components/modal-confirm-delete";
@@ -37,7 +37,7 @@ const WaitingOrder: React.FC = () => {
       render: (conditions: Array<string>) => {
         const listConditions = conditions.map((item) => item.split(" "));
         const colorTag = listConditions.map((item) =>
-          item[1] === "Waiting" ? "" : "green"
+          item[1] === EStatusCondition.WAITING ? "" : "green"
         );
         return (
           <Typography.Text>
@@ -84,7 +84,7 @@ const WaitingOrder: React.FC = () => {
           item.split(" ")
         );
         const isDisable = listConditions.find(
-          (item) => item[1] === "Triggered"
+          (item) => item[1] === EStatusCondition.TRIGGERED
         );
         return (
           <Button
